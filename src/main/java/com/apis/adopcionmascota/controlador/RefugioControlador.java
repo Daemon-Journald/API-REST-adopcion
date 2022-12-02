@@ -2,8 +2,9 @@ package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.RefugioBasicoDto;
 import com.apis.adopcionmascota.dto.RefugioDomDto;
+import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Refugio;
-import com.apis.adopcionmascota.servicio.RefugioServicio;
+import com.apis.adopcionmascota.servicio.impl.RefugioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RefugioControlador {
     public ResponseEntity<?> listarRefugios(){
         List<Refugio> refugios=refugioServicio.listarRefugios();
         if (refugios.isEmpty()){
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException();
         }else{
             List<RefugioBasicoDto> listDto=refugios
                     .stream()
@@ -35,12 +36,9 @@ public class RefugioControlador {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarRefugioPorId(@PathVariable Long id){
-        Refugio refugio=refugioServicio.buscarRefugioPorId(id);
-        if(refugio!= null){
-            return ResponseEntity.ok(refugioServicio.convetirADto(refugio));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        Refugio refugio=refugioServicio.buscarRefugioPorId(id)
+                .orElseThrow(()->new NotFoundException(id));
+        return ResponseEntity.ok(refugioServicio.convetirADto(refugio));
     }
 
     @PostMapping
@@ -55,12 +53,9 @@ public class RefugioControlador {
     }
     @DeleteMapping("{id}")
     public ResponseEntity<?> eliminarRefugio(@PathVariable Long id){
-        Refugio refugio=refugioServicio.buscarRefugioPorId(id);
-        if(refugio != null){
-            refugioServicio.eliminarRefugio(id);
-            return ResponseEntity.ok(refugio);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        Refugio refugio=refugioServicio.buscarRefugioPorId(id)
+                .orElseThrow(()->new NotFoundException(id));
+        refugioServicio.eliminarRefugio(id);
+        return ResponseEntity.ok(refugio);
     }
 }

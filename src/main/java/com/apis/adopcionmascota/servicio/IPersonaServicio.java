@@ -6,14 +6,17 @@ import com.apis.adopcionmascota.dto.PersonaDto;
 import com.apis.adopcionmascota.modelo.Persona;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IPersonaServicio {
     List<Persona> listarPersonas();
     Persona guardarPersona(Persona persona);
 
-    Persona buscarPersonaPorId(Long id);
+    Optional<Persona> buscarPersonaPorId(Long id);
 
     void eliminarPersona(Long id);
+
+    void eliminarPersonas();
 
     PersonaBasicaDto convertirADtoBasico(Persona persona);
 
@@ -21,7 +24,5 @@ public interface IPersonaServicio {
 
     Persona convertirAPersona(PersonaDomDto personaDomDto);
 
-
-
-
+    Persona validarDatosPersona(Persona persona);
 }

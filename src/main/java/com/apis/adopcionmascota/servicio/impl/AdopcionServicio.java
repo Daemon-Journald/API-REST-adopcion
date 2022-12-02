@@ -1,4 +1,4 @@
-package com.apis.adopcionmascota.servicio;
+package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.AdopcionBasicaDto;
 import com.apis.adopcionmascota.dto.AdopcionDomDto;
@@ -9,6 +9,7 @@ import com.apis.adopcionmascota.modelo.Persona;
 import com.apis.adopcionmascota.repositorio.AdopcionRespositorio;
 import com.apis.adopcionmascota.repositorio.AnimalRepositorio;
 import com.apis.adopcionmascota.repositorio.PersonaRepositorio;
+import com.apis.adopcionmascota.servicio.IAdopcionServicio;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AdopcionServicio implements IAdopcionServicio{
+public class AdopcionServicio implements IAdopcionServicio {
 
     @Autowired
     private AdopcionRespositorio adopcionRespositorio;
@@ -48,8 +50,8 @@ public class AdopcionServicio implements IAdopcionServicio{
     }
 
     @Override
-    public Adopcion buscarAdopcionPorId(Long id) {
-        return adopcionRespositorio.findById(id).orElse(null);
+    public Optional<Adopcion> buscarAdopcionPorId(Long id) {
+        return adopcionRespositorio.findById(id);
     }
 
     @Override

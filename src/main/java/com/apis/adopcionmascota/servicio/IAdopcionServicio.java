@@ -6,6 +6,7 @@ import com.apis.adopcionmascota.dto.AdopcionDto;
 import com.apis.adopcionmascota.modelo.Adopcion;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAdopcionServicio {
 
@@ -21,7 +22,7 @@ public interface IAdopcionServicio {
 
     Adopcion guardarAdopcion(Adopcion adopcion);
 
-    Adopcion buscarAdopcionPorId(Long id);
+    Optional<Adopcion> buscarAdopcionPorId(Long id);
 
     void eliminarAdopcion(long id);
 

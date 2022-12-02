@@ -6,13 +6,14 @@ import com.apis.adopcionmascota.dto.RefugioDto;
 import com.apis.adopcionmascota.modelo.Refugio;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRefugioServicio {
     List<Refugio> listarRefugios();
 
     Refugio guardarRefugio(Refugio refugio);
 
-    Refugio buscarRefugioPorId(Long id);
+    Optional<Refugio> buscarRefugioPorId(Long id);
 
     void eliminarRefugio(long id);
 

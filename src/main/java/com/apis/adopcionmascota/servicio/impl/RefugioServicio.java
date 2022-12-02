@@ -1,19 +1,21 @@
-package com.apis.adopcionmascota.servicio;
+package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.RefugioBasicoDto;
 import com.apis.adopcionmascota.dto.RefugioDomDto;
 import com.apis.adopcionmascota.dto.RefugioDto;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.repositorio.RefugioRepositorio;
+import com.apis.adopcionmascota.servicio.IRefugioServicio;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class RefugioServicio implements IRefugioServicio{
+public class RefugioServicio implements IRefugioServicio {
 
     @Autowired
     private RefugioRepositorio refugioRepositorio;
@@ -26,8 +28,8 @@ public class RefugioServicio implements IRefugioServicio{
         return refugioRepositorio.save(refugio);
     }
 
-    public Refugio buscarRefugioPorId(Long id){
-        return refugioRepositorio.findById(id).orElse(null);
+    public Optional<Refugio> buscarRefugioPorId(Long id){
+        return refugioRepositorio.findById(id);
     }
 
     public void eliminarRefugio(long id){

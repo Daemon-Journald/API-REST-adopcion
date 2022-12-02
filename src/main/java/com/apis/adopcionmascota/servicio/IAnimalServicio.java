@@ -6,6 +6,7 @@ import com.apis.adopcionmascota.dto.AnimalDto;
 import com.apis.adopcionmascota.modelo.Animal;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAnimalServicio {
 
@@ -13,9 +14,11 @@ public interface IAnimalServicio {
 
     Animal guardarAnimales(Animal animal);
 
-    Animal buscarAnimalPorId(Long id);
+    Optional<Animal> buscarAnimalPorId(Long id);
 
-    void eliminarAnimales(long id);
+    void eliminarAnimal(Long id);
+
+    AnimalDomDto validarDatosAnimal(AnimalDomDto animalDomDto);
 
     /**
      * Conversion de un Objeto Animal a AnimalDto

@@ -1,4 +1,4 @@
-package com.apis.adopcionmascota.servicio;
+package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
 import com.apis.adopcionmascota.dto.AnimalDomDto;
@@ -7,19 +7,24 @@ import com.apis.adopcionmascota.modelo.Animal;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.repositorio.AnimalRepositorio;
 import com.apis.adopcionmascota.repositorio.RefugioRepositorio;
+import com.apis.adopcionmascota.servicio.IAnimalServicio;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AnimalServicio implements IAnimalServicio{
+public class AnimalServicio implements IAnimalServicio {
     @Autowired
     private AnimalRepositorio animalRepositorio;
 
     @Autowired
     private RefugioRepositorio refugioRepositorio;
+
+    @Autowired
+    private RefugioServicio refugioServicio;
 
 
     @Autowired
@@ -31,12 +36,20 @@ public class AnimalServicio implements IAnimalServicio{
         return animalRepositorio.save(animal);
     }
 
-    public Animal buscarAnimalPorId(Long id){
-        return animalRepositorio.findById(id).orElse(null);
+    public Optional<Animal> buscarAnimalPorId(Long id){
+        return animalRepositorio.findById(id);
     }
 
-    public void eliminarAnimales(long id){
+    public void eliminarAnimal(Long id){
         animalRepositorio.deleteById(id);
+    }
+
+    @Override
+    public AnimalDomDto validarDatosAnimal(AnimalDomDto animalDomDto) throws NullPointerException{
+        if(animalDomDto.getAnimalNombre().equals("") || animalDomDto.getRefugioId()>refugioServicio.listarRefugios().size()){
+            throw new NullPointerException();
+        }
+        return animalDomDto;
     }
 
     public AnimalDto convertirADto(Animal animal){
