@@ -65,10 +65,9 @@ public class PersonaServicio implements IPersonaServicio {
     @Override
     public Persona validarDatosPersona(Persona persona) {
         if(persona.getNombre().equals("") ||persona.getDireccion().equals("")||persona.getTelefono().equals("")){
-            return persona=null;
-        }else{
-            return persona;
+            return null;
         }
+        return persona;
     }
 
 

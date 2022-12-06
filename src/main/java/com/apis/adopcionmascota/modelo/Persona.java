@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,5 +27,5 @@ public class Persona {
     private String telefono;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<Adopcion> adopciones;
+    private List<Adopcion> adopciones= new ArrayList<>();
 }

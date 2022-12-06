@@ -1,8 +1,6 @@
 package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
-import com.apis.adopcionmascota.dto.PersonaDomDto;
-import com.apis.adopcionmascota.dto.PersonaDto;
 import com.apis.adopcionmascota.error.BadRequestException;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Persona;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,16 +35,16 @@ public class PersonaControlador {
     }
 
     @GetMapping("/{id}")
-    public PersonaDto buscarPersona(@PathVariable Long id) {
+    public Persona buscarPersona(@PathVariable Long id) {
         Persona persona = personaServicio.buscarPersonaPorId(id)
                 .orElseThrow(()->new NotFoundException(id));
-        return personaServicio.convertirADto(persona);
+        return persona;
     }
 
     @PostMapping
-    public ResponseEntity<?> crearPersona(@RequestBody PersonaDomDto personaDomDto)throws BadRequestException {
-        Persona persona=personaServicio.convertirAPersona(personaDomDto);
-        if(personaServicio.validarDatosPersona(persona) == null){
+    public ResponseEntity<?> crearPersona(@RequestBody Persona persona){
+        Persona personaValidada=personaServicio.validarDatosPersona(persona);
+        if(personaValidada == null){
             throw new BadRequestException(persona);
         }
         personaServicio.guardarPersona(persona);
@@ -62,14 +59,6 @@ public class PersonaControlador {
         personaServicio.eliminarPersona(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-    @DeleteMapping
-    public ResponseEntity<?> eliminarPersonas(){
-        personaServicio.eliminarPersonas();
-        return ResponseEntity.ok().build();
-    }
-
-
 }
 
 
