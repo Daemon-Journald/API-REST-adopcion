@@ -20,6 +20,6 @@ public class Refugio {
     private String ciudad;
     private String direccion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animales;
 }

@@ -1,9 +1,6 @@
 package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
-import com.apis.adopcionmascota.dto.AnimalDomDto;
-import com.apis.adopcionmascota.dto.AnimalDto;
-import com.apis.adopcionmascota.dto.RefugioBasicoDto;
 import com.apis.adopcionmascota.error.BadRequestException;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Animal;
@@ -18,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/animal")
 public class AnimalControlador {
 
     @Autowired
@@ -31,11 +27,11 @@ public class AnimalControlador {
      * Listar animales
      * @return listDto
      */
-    @GetMapping
-    public ResponseEntity<?> listarAnimales(){
-        List<Animal> animalList=animalServicio.listarAnimales();
+    @GetMapping("/refugio/{idRefugio}/animal")
+    public ResponseEntity<?> listarAnimales(@PathVariable Long idRefugio){
+        List<Animal> animalList=animalServicio.listarAnimalesPorRefugio(idRefugio);
         if (animalList.isEmpty()){
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException();
         }else{
             List<AnimalBasicoDto> listDto=animalList
                     .stream()
@@ -49,41 +45,31 @@ public class AnimalControlador {
      * Buscar Animal por id
      * @param idAnimal
      * @return Animal
+     * los parametros deben estar en orden al igual que esta en la ruta y tambien
+     * en los metodos
      */
-    @GetMapping("/{idAnimal}")
-    public ResponseEntity<?> bucarAnimal(@PathVariable Long idAnimal){
-        Animal animal=animalServicio.buscarAnimalPorId(idAnimal)
-                .orElseThrow(()->new NotFoundException(idAnimal));
-        AnimalDto animalDto=animalServicio.convertirADto(animal);
-        RefugioBasicoDto refugioBasicoDto=refugioServicio.convertirADtoBasico(animal.getRefugio());
-        animalDto.setAnimalRefugio(refugioBasicoDto);
-        return ResponseEntity.ok(animalDto);
+    @GetMapping("/refugio/{idRefugio}/animal/{idAnimal}")
+    public Animal bucarAnimal(@PathVariable Long idRefugio, @PathVariable Long idAnimal){
+        Animal animal=animalServicio.buscarAnimalIdPorRefugio(idRefugio, idAnimal);
+        if(animal == null){
+            throw new NotFoundException(idAnimal);
+        }
+        return animal;
     }
 
     /**
      * Crear animal
-     * @param animalDomDto
+     * @param
      * @return
      */
-   @PostMapping
-    public ResponseEntity<?> crearAnimal(@RequestBody AnimalDomDto animalDomDto) {
-       Animal animalNuevo=animalServicio.convertirAObjeto(animalDomDto);
-       if(animalDomDto.getAnimalNombre().equals("") || animalDomDto.getRefugioId() > refugioServicio.listarRefugios().size()){
-           throw new BadRequestException(animalNuevo);
+   @PostMapping("/refugio/{idRefugio}/animal")
+    public ResponseEntity<?> crearAnimal(@PathVariable Long idRefugio,@RequestBody Animal animal) {
+       Animal animalValidado=animalServicio.validarAnimal(animal);
+       if(animalValidado == null){
+           throw new BadRequestException(animalValidado);
        }
-       animalServicio.guardarAnimales(animalNuevo);
-       AnimalDto animalDto=animalServicio.convertirADto(animalNuevo);
-       RefugioBasicoDto refugioBasicoDto=refugioServicio.convertirADtoBasico(animalNuevo.getRefugio());
-       animalDto.setAnimalRefugio(refugioBasicoDto);
-       return ResponseEntity.status(HttpStatus.CREATED).body(animalDto);
+       animalServicio.guardarAnimalEnRefugio(animal,idRefugio);
+       return ResponseEntity.ok(animalValidado);
+
    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarAnimal(@PathVariable Long id) {
-        Animal animal = animalServicio.buscarAnimalPorId(id)
-                .orElseThrow(()->new NotFoundException(id));
-        animalServicio.eliminarAnimal(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(animal);
-
-    }
 }
