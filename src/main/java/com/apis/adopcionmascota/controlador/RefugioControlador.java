@@ -1,7 +1,6 @@
 package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.RefugioBasicoDto;
-import com.apis.adopcionmascota.dto.RefugioDomDto;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.servicio.impl.RefugioServicio;
@@ -35,23 +34,24 @@ public class RefugioControlador {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarRefugioPorId(@PathVariable Long id){
+    public Refugio buscarRefugioPorId(@PathVariable Long id){
         Refugio refugio=refugioServicio.buscarRefugioPorId(id)
                 .orElseThrow(()->new NotFoundException(id));
-        return ResponseEntity.ok(refugioServicio.convetirADto(refugio));
+        return refugio;
     }
 
+    //falta revisar
     @PostMapping
-    public ResponseEntity<?> crearRefugio(@RequestBody RefugioDomDto refugioDomDto){
-        Refugio refugioNuevo=refugioServicio.convertirARefugio(refugioDomDto);
-        if(refugioNuevo != null){
-            refugioServicio.guardarRefugio(refugioNuevo);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }else{
+    public ResponseEntity<?> crearRefugio(@RequestBody Refugio refugioNuevo){
+        Refugio refugio=refugioServicio.validarDatos(refugioNuevo);
+        if(refugioNuevo == null){
             return ResponseEntity.badRequest().build();
         }
+        refugioServicio.guardarRefugio(refugio);
+        return ResponseEntity.status(HttpStatus.CREATED).body(refugio);
+
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarRefugio(@PathVariable Long id){
         Refugio refugio=refugioServicio.buscarRefugioPorId(id)
                 .orElseThrow(()->new NotFoundException(id));

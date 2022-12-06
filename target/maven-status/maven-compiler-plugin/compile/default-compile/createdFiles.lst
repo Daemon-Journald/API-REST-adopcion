@@ -5,7 +5,6 @@ com/apis/adopcionmascota/controlador/RefugioControlador.class
 com/apis/adopcionmascota/dto/AnimalBasicoDto.class
 com/apis/adopcionmascota/repositorio/RefugioRepositorio.class
 com/apis/adopcionmascota/modelo/Animal.class
-com/apis/adopcionmascota/dto/RefugioDomDto.class
 com/apis/adopcionmascota/dto/AdopcionDomDto.class
 com/apis/adopcionmascota/dto/PersonaBasicaDto.class
 com/apis/adopcionmascota/dto/AdopcionAnimalDto.class
@@ -38,7 +37,6 @@ com/apis/adopcionmascota/error/NotFoundException.class
 com/apis/adopcionmascota/servicio/IAdopcionServicio.class
 com/apis/adopcionmascota/servicio/impl/AdopcionServicio.class
 com/apis/adopcionmascota/AdopcionMascotaApplication.class
-com/apis/adopcionmascota/dto/RefugioDto.class
 com/apis/adopcionmascota/modelo/enums/AdopcionEnum.class
 com/apis/adopcionmascota/dto/PersonaDto.class
 com/apis/adopcionmascota/modelo/Adopcion.class

@@ -1,8 +1,6 @@
 package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.RefugioBasicoDto;
-import com.apis.adopcionmascota.dto.RefugioDomDto;
-import com.apis.adopcionmascota.dto.RefugioDto;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.repositorio.RefugioRepositorio;
 import com.apis.adopcionmascota.servicio.IRefugioServicio;
@@ -10,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,16 +48,11 @@ public class RefugioServicio implements IRefugioServicio {
     }
 
     @Override
-    public RefugioDto convetirADto(Refugio refugio) {
-        return modelMapper.map(refugio, RefugioDto.class);
+    public Refugio validarDatos(Refugio refugio) {
+        if(refugio.getNombre().equals("")||refugio.getCiudad().equals("")||refugio.getDireccion().equals("")){
+            return null;
+        }
+        return refugio;
+
     }
-
-    @Override
-    public Refugio convertirARefugio(RefugioDomDto refugioDomDto) {
-        Refugio refugioNuevo=modelMapper.map(refugioDomDto, Refugio.class);
-        refugioNuevo.setAnimales(new ArrayList<>());
-        return refugioNuevo;
-    }
-
-
 }
