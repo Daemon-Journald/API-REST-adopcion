@@ -1,6 +1,8 @@
 package com.apis.adopcionmascota.controlador;
 
+import com.apis.adopcionmascota.dto.PersonaAdopcionDto;
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
+import com.apis.adopcionmascota.dto.PersonaDto;
 import com.apis.adopcionmascota.error.BadRequestException;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Persona;
@@ -35,10 +37,10 @@ public class PersonaControlador {
     }
 
     @GetMapping("/{id}")
-    public Persona buscarPersona(@PathVariable Long id) {
+    public PersonaDto buscarPersona(@PathVariable Long id) {
         Persona persona = personaServicio.buscarPersonaPorId(id)
                 .orElseThrow(()->new NotFoundException(id));
-        return persona;
+        return personaServicio.convertirADto(persona);
     }
 
     @PostMapping

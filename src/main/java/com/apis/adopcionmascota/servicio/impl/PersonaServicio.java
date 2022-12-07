@@ -1,5 +1,6 @@
 package com.apis.adopcionmascota.servicio.impl;
 
+import com.apis.adopcionmascota.dto.PersonaAdopcionDto;
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
 import com.apis.adopcionmascota.dto.PersonaDomDto;
 import com.apis.adopcionmascota.dto.PersonaDto;
@@ -51,15 +52,9 @@ public class PersonaServicio implements IPersonaServicio {
         return modelMapper.map(persona, PersonaBasicaDto.class);
     }
 
-    public PersonaDto convertirADto(Persona persona){
-        return modelMapper.map(persona, PersonaDto.class);
-    }
-
     @Override
-    public Persona convertirAPersona(PersonaDomDto personaDomDto) {
-        Persona persona=modelMapper.map(personaDomDto, Persona.class);
-        persona.setAdopciones(new ArrayList<>());
-        return persona;
+    public PersonaDto convertirADto(Persona persona) {
+        return modelMapper.map(persona, PersonaDto.class);
     }
 
     @Override

@@ -1,21 +1,20 @@
 package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.AdopcionBasicaDto;
-import com.apis.adopcionmascota.dto.AdopcionDomDto;
 import com.apis.adopcionmascota.dto.AdopcionDto;
+import com.apis.adopcionmascota.dto.CrearAdopcionDto;
 import com.apis.adopcionmascota.modelo.Adopcion;
 import com.apis.adopcionmascota.modelo.Animal;
 import com.apis.adopcionmascota.modelo.Persona;
+import com.apis.adopcionmascota.modelo.enums.AdopcionEnum;
 import com.apis.adopcionmascota.repositorio.AdopcionRespositorio;
-import com.apis.adopcionmascota.repositorio.AnimalRepositorio;
-import com.apis.adopcionmascota.repositorio.PersonaRepositorio;
 import com.apis.adopcionmascota.servicio.IAdopcionServicio;
+import com.apis.adopcionmascota.servicio.IAnimalServicio;
+import com.apis.adopcionmascota.servicio.IPersonaServicio;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +25,10 @@ public class AdopcionServicio implements IAdopcionServicio {
     private AdopcionRespositorio adopcionRespositorio;
 
     @Autowired
-    private AnimalRepositorio animalRepositorio;
+    private IAnimalServicio animalServicio;
 
     @Autowired
-    private PersonaRepositorio personaRepositorio;
+    private IPersonaServicio personaServicio;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -56,6 +55,9 @@ public class AdopcionServicio implements IAdopcionServicio {
 
     @Override
     public void eliminarAdopcion(long id) {
+        Adopcion adopcion=adopcionRespositorio.findById(id).orElse(null);
+        Animal animal=adopcion.getAnimal();
+        animal.setEstado(AdopcionEnum.NO_ADOPTADO.toString());
         adopcionRespositorio.deleteById(id);
     }
 
@@ -70,26 +72,15 @@ public class AdopcionServicio implements IAdopcionServicio {
     }
 
     @Override
-    public Adopcion convetirAObjeto(AdopcionDomDto adopcionDomDto) {
-        Persona personaNueva=new Persona();
-        personaNueva.setNombre(adopcionDomDto.getPersonaNombre());
-        personaNueva.setTelefono(adopcionDomDto.getPersonaTelefono());
-        personaNueva.setDireccion(adopcionDomDto.getPersonaDireccion());
-        personaNueva.setEmail(adopcionDomDto.getPersonaEmail());
-        personaNueva.setAdopciones(new ArrayList<>());
-        personaRepositorio.save(personaNueva);
+    public Adopcion convetirAObjeto(CrearAdopcionDto crearAdopcionDto) {
+        Persona persona = personaServicio.buscarPersonaPorId(crearAdopcionDto.getPersonaId()).orElse(null);
+        Animal animal=animalServicio.buscarAnimalPorId(crearAdopcionDto.getAnimalId()).orElse(null);
 
         Adopcion adopcionNuevo=new Adopcion();
-        adopcionNuevo.setPersona(personaNueva);
-        adopcionNuevo.setFecha(new Date());
-
-        Animal animal=animalRepositorio.findById(adopcionDomDto.getAnimalId()).orElse(null);
+        adopcionNuevo.setPersona(persona);
+        animal.setEstado(AdopcionEnum.ADOPTADO.toString());
         adopcionNuevo.setAnimal(animal);
 
-        List<Adopcion> listaAdopciones=personaNueva.getAdopciones();
-        listaAdopciones.add(adopcionNuevo);
-        //aumentado
-        personaNueva.setAdopciones(listaAdopciones);
         return adopcionNuevo;
     }
 

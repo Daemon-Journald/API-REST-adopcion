@@ -1,5 +1,6 @@
 package com.apis.adopcionmascota.servicio;
 
+import com.apis.adopcionmascota.dto.PersonaAdopcionDto;
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
 import com.apis.adopcionmascota.dto.PersonaDomDto;
 import com.apis.adopcionmascota.dto.PersonaDto;
@@ -21,8 +22,6 @@ public interface IPersonaServicio {
     PersonaBasicaDto convertirADtoBasico(Persona persona);
 
     PersonaDto convertirADto(Persona persona);
-
-    Persona convertirAPersona(PersonaDomDto personaDomDto);
 
     Persona validarDatosPersona(Persona persona);
 }

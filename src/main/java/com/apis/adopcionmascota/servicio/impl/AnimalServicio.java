@@ -1,7 +1,7 @@
 package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
-import com.apis.adopcionmascota.dto.AnimalDto;
+import com.apis.adopcionmascota.dto.AnimalDomDto;
 import com.apis.adopcionmascota.modelo.Animal;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.repositorio.AnimalRepositorio;
@@ -73,8 +73,8 @@ public class AnimalServicio implements IAnimalServicio {
         animalRepositorio.deleteById(id);
     }
 
-    public AnimalDto convertirADto(Animal animal){
-        return modelMapper.map(animal ,AnimalDto.class);
+    public AnimalDomDto convertirADto(Animal animal){
+        return modelMapper.map(animal , AnimalDomDto.class);
     }
     @Override
     public AnimalBasicoDto convertirADtoBasico(Animal animal) {

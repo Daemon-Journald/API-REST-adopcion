@@ -7,11 +7,9 @@ import lombok.Setter;
 import java.util.Date;
 
 @Setter @Getter
-public class AdopcionBasicaDto {
-
+public class PersonaAdopcionDto {
     private Long adopcionId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date adopcionFecha;
-    private String animalNombre;
-    private String personaNombre;
+    private AnimalDomDto adopcionAnimal;
 }

@@ -1,8 +1,8 @@
 package com.apis.adopcionmascota.servicio;
 
 import com.apis.adopcionmascota.dto.AdopcionBasicaDto;
-import com.apis.adopcionmascota.dto.AdopcionDomDto;
 import com.apis.adopcionmascota.dto.AdopcionDto;
+import com.apis.adopcionmascota.dto.CrearAdopcionDto;
 import com.apis.adopcionmascota.modelo.Adopcion;
 
 import java.util.List;
@@ -30,6 +30,6 @@ public interface IAdopcionServicio {
 
     AdopcionDto convertirADto(Adopcion adopcion);
 
-    Adopcion convetirAObjeto(AdopcionDomDto adopcionDomDto);
+    Adopcion convetirAObjeto(CrearAdopcionDto crearAdopcionDto);
 
 }

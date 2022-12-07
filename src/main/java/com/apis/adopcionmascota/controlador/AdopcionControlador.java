@@ -1,8 +1,8 @@
 package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.AdopcionBasicaDto;
-import com.apis.adopcionmascota.dto.AdopcionDomDto;
 import com.apis.adopcionmascota.dto.AdopcionDto;
+import com.apis.adopcionmascota.dto.CrearAdopcionDto;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Adopcion;
 import com.apis.adopcionmascota.servicio.impl.AdopcionServicio;
@@ -44,8 +44,8 @@ public class AdopcionControlador {
     }
 
     @PostMapping
-    public ResponseEntity<?> crearAdopcion(@RequestBody  AdopcionDomDto adopcionDomDto){
-        Adopcion adopcionNueva=adopcionServicio.convetirAObjeto(adopcionDomDto);
+    public ResponseEntity<?> crearAdopcion(@RequestBody CrearAdopcionDto crearAdopcionDto){
+        Adopcion adopcionNueva=adopcionServicio.convetirAObjeto(crearAdopcionDto);
         if(adopcionNueva != null){
             AdopcionDto adopcionDto=adopcionServicio.convertirADto(adopcionServicio.guardarAdopcion(adopcionNueva));
             return ResponseEntity.status(HttpStatus.CREATED).body(adopcionDto);
