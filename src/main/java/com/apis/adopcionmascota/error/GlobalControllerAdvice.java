@@ -15,35 +15,24 @@ import java.util.Date;
 public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> manejarBadRequestException(BadRequestException ex){
-        ModeloError modeloError=new ModeloError();
+    public ResponseEntity<?> manejarBadRequestException(BadRequestException ex) {
+        ModeloError modeloError = new ModeloError();
         modeloError.setEstado(HttpStatus.BAD_REQUEST);
         modeloError.setFecha(new Date());
         modeloError.setMensaje(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(modeloError);
     }
+
     @ExceptionHandler({NotFoundException.class})
-    public ResponseEntity<?> manejarPersonaNotFoundException(NotFoundException ex){
-        ModeloError modeloError=new ModeloError();
+    public ResponseEntity<?> manejarPersonaNotFoundException(NotFoundException ex) {
+        ModeloError modeloError = new ModeloError();
         modeloError.setEstado(HttpStatus.NOT_FOUND);
         modeloError.setFecha(new Date());
         modeloError.setMensaje(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(modeloError);
     }
-
-   /* @ExceptionHandler(JsonMappingException.class)
-    public ResponseEntity<?> manejarJsonMappingException(JsonMappingException ex){
-        ModeloError modeloError=new ModeloError();
-        modeloError.setEstado(HttpStatus.NOT_FOUND);
-        modeloError.setFecha(new Date());
-        modeloError.setMensaje(ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(modeloError);
-    }*/
-
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NotFoundException extends RuntimeException{
 
     public NotFoundException(Long id){
-        super("no se encontro el elemento con el ID: "+id);
+        super("No se encontro el elemento con el ID: "+id);
     }
 
     public NotFoundException() {
-        super("Lista vacia");
+        super("Ningun elemento registrado");
     }
 }
