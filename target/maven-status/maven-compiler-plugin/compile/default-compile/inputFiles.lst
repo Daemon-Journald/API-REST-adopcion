@@ -14,7 +14,7 @@
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/dto/PersonaDomDto.java
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/controlador/PersonaControlador.java
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/error/BadRequestException.java
-/home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/dto/AdopcionDomDto.java
+/home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/dto/PersonaAdopcionDto.java
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/servicio/IAnimalServicio.java
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/configuracion/WebMvcConfig.java
 /home/kaiser/Documentos/IdeaProjects/adopcion-mascota/src/main/java/com/apis/adopcionmascota/repositorio/AnimalRepositorio.java

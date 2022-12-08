@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,9 +74,6 @@ public class AnimalServicio implements IAnimalServicio {
         animalRepositorio.deleteById(id);
     }
 
-    public AnimalDomDto convertirADto(Animal animal){
-        return modelMapper.map(animal , AnimalDomDto.class);
-    }
     @Override
     public AnimalBasicoDto convertirADtoBasico(Animal animal) {
         return modelMapper.map(animal, AnimalBasicoDto.class);
@@ -87,6 +85,22 @@ public class AnimalServicio implements IAnimalServicio {
             return null;
         }
         return animal;
+    }
+
+    @Override
+    public List<Animal> listarAnimalesPorEstado(String estado) {
+        return animalRepositorio.findByEstado(estado);
+    }
+
+    @Override
+    public List<Animal> filtrarAnimalesPorEstado(String estado, List<Animal> animales) {
+        List<Animal> animalesFiltradosPortEstado=new ArrayList<>();
+        for (Animal animal:animales) {
+            if(animal.getEstado().equals(estado)){
+                animalesFiltradosPortEstado.add(animal);
+            }
+        }
+        return animalesFiltradosPortEstado;
     }
 
 

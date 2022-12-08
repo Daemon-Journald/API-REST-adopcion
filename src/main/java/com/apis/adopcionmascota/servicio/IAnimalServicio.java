@@ -27,6 +27,9 @@ public interface IAnimalServicio {
 
     Animal validarAnimal(Animal animal);
 
+    List<Animal> listarAnimalesPorEstado(String estado);
+
+    List<Animal> filtrarAnimalesPorEstado(String estado, List<Animal> animales);
 
 
 }

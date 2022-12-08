@@ -28,8 +28,13 @@ public class AnimalControlador {
      * @return listDto
      */
     @GetMapping("/refugio/{idRefugio}/animal")
-    public ResponseEntity<?> listarAnimales(@PathVariable Long idRefugio){
-        List<Animal> animalList=animalServicio.listarAnimalesPorRefugio(idRefugio);
+    public ResponseEntity<?> listarAnimales(@RequestParam(required = false, defaultValue = "NO_ADOPTADO") String estado,
+                                            @PathVariable Long idRefugio) {
+        List<Animal> animalList = animalServicio.listarAnimalesPorRefugio(idRefugio);;
+        if (estado.toUpperCase().equals("ADOPTADO") || estado.toUpperCase().equals("NO_ADOPTADO")){
+            animalList = animalServicio.filtrarAnimalesPorEstado(estado, animalList);
+        }
+
         if (animalList.isEmpty()){
             throw new NotFoundException();
         }else{
