@@ -1,2 +1,5 @@
 #ignorando la carpeta de Intellij Idea
 .idea
+#ignorando documentacion
+overview.html
+
