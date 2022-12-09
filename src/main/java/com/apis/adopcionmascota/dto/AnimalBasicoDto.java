@@ -8,5 +8,5 @@ public class AnimalBasicoDto {
 
     private Long animalId;
     private String animalNombre;
-    private String refugioNombre;
+    private String animalEstado;
 }

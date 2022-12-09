@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,6 +21,6 @@ public class Refugio {
     private String ciudad;
     private String direccion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "refugio")
-    private List<Animal> animales;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Animal> animales=new ArrayList<>();
 }

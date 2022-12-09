@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CrearAdopcionDto {
 
-    private String personaNombres;
+    private Long personaId;
     private Long animalId;
 
 }

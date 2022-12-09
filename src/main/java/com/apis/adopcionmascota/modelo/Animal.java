@@ -1,5 +1,6 @@
 package com.apis.adopcionmascota.modelo;
 
+import com.apis.adopcionmascota.modelo.enums.AdopcionEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,8 +22,5 @@ public class Animal {
     private Integer edad;
     private Long talla;
     private String raza;
-
-    @ManyToOne
-    @JoinColumn(name = "refugio_id")
-    private Refugio refugio;
+    private String estado=AdopcionEnum.NO_ADOPTADO.toString();
 }

@@ -1,37 +1,35 @@
 package com.apis.adopcionmascota.servicio;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
-import com.apis.adopcionmascota.dto.AnimalDomDto;
-import com.apis.adopcionmascota.dto.AnimalDto;
 import com.apis.adopcionmascota.modelo.Animal;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAnimalServicio {
 
-    List<Animal> listarAnimales();
+    List<Animal> listarAnimalesPorRefugio(Long idRefugio);
 
-    Animal guardarAnimales(Animal animal);
+    Animal guardarAnimalEnRefugio(Animal animal, Long idRefugio);
 
-    Animal buscarAnimalPorId(Long id);
+    Animal buscarAnimalIdPorRefugio(Long idRefugio, Long idAnimal);
 
-    void eliminarAnimales(long id);
+    Optional<Animal> buscarAnimalPorId(Long idAnimal);
+
+    void eliminarAnimal(Long id);
 
     /**
      * Conversion de un Objeto Animal a AnimalDto
      * @param animal
      * @return AnimalDto
      */
-    AnimalDto convertirADto(Animal animal);
-
-    /**
-     * Conversion de AnimalDto a Animal
-     * @param  animalDomDto
-     * @return Animal
-     */
-    Animal convertirAObjeto(AnimalDomDto animalDomDto);
-
     AnimalBasicoDto convertirADtoBasico(Animal animal);
+
+    Animal validarAnimal(Animal animal);
+
+    List<Animal> listarAnimalesPorEstado(String estado);
+
+    List<Animal> filtrarAnimalesPorEstado(String estado, List<Animal> animales);
 
 
 }

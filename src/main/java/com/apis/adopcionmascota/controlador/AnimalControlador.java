@@ -1,12 +1,11 @@
 package com.apis.adopcionmascota.controlador;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
-import com.apis.adopcionmascota.dto.AnimalDomDto;
-import com.apis.adopcionmascota.dto.AnimalDto;
-import com.apis.adopcionmascota.dto.RefugioBasicoDto;
+import com.apis.adopcionmascota.error.BadRequestException;
+import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Animal;
-import com.apis.adopcionmascota.servicio.AnimalServicio;
-import com.apis.adopcionmascota.servicio.RefugioServicio;
+import com.apis.adopcionmascota.servicio.impl.AnimalServicio;
+import com.apis.adopcionmascota.servicio.impl.RefugioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/animal")
 public class AnimalControlador {
 
     @Autowired
@@ -29,11 +27,16 @@ public class AnimalControlador {
      * Listar animales
      * @return listDto
      */
-    @GetMapping
-    public ResponseEntity<?> listarAnimales(){
-        List<Animal> animalList=animalServicio.listarAnimales();
+    @GetMapping("/refugio/{idRefugio}/animal")
+    public ResponseEntity<?> listarAnimales(@RequestParam(required = false, defaultValue = "NO_ADOPTADO") String estado,
+                                            @PathVariable Long idRefugio) {
+        List<Animal> animalList = animalServicio.listarAnimalesPorRefugio(idRefugio);;
+        if (estado.toUpperCase().equals("ADOPTADO") || estado.toUpperCase().equals("NO_ADOPTADO")){
+            animalList = animalServicio.filtrarAnimalesPorEstado(estado, animalList);
+        }
+
         if (animalList.isEmpty()){
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException();
         }else{
             List<AnimalBasicoDto> listDto=animalList
                     .stream()
@@ -47,48 +50,31 @@ public class AnimalControlador {
      * Buscar Animal por id
      * @param idAnimal
      * @return Animal
+     * los parametros deben estar en orden al igual que esta en la ruta y tambien
+     * en los metodos
      */
-    @GetMapping("/{idAnimal}")
-    public ResponseEntity<?> bucarAnimal(@PathVariable Long idAnimal){
-        Animal animal=animalServicio.buscarAnimalPorId(idAnimal);
-        if(animal != null){
-            AnimalDto animalDto=animalServicio.convertirADto(animal);
-            RefugioBasicoDto refugioBasicoDto=refugioServicio.convertirADtoBasico(animal.getRefugio());
-            animalDto.setAnimalRefugio(refugioBasicoDto);
-            return ResponseEntity.ok(animalDto);
-        }else{
-            return ResponseEntity.notFound().build();
+    @GetMapping("/refugio/{idRefugio}/animal/{idAnimal}")
+    public Animal bucarAnimal(@PathVariable Long idRefugio, @PathVariable Long idAnimal){
+        Animal animal=animalServicio.buscarAnimalIdPorRefugio(idRefugio, idAnimal);
+        if(animal == null){
+            throw new NotFoundException(idAnimal);
         }
+        return animal;
     }
 
     /**
      * Crear animal
-     * @param animalDomDto
+     * @param
      * @return
      */
-   @PostMapping
-    public ResponseEntity<?> crearAnimal(@RequestBody AnimalDomDto animalDomDto) {
-       Animal animalNuevo=animalServicio.convertirAObjeto(animalDomDto);
-       if (animalNuevo != null) {
-           animalServicio.guardarAnimales(animalNuevo);
-           AnimalDto animalDto=animalServicio.convertirADto(animalNuevo);
-           RefugioBasicoDto refugioBasicoDto=refugioServicio.convertirADtoBasico(animalNuevo.getRefugio());
-           animalDto.setAnimalRefugio(refugioBasicoDto);
-           return ResponseEntity.status(HttpStatus.CREATED).body(animalDto);
-       } else {
-           return ResponseEntity.badRequest().build();
+   @PostMapping("/refugio/{idRefugio}/animal")
+    public ResponseEntity<?> crearAnimal(@PathVariable Long idRefugio,@RequestBody Animal animal) {
+       Animal animalValidado=animalServicio.validarAnimal(animal);
+       if(animalValidado == null){
+           throw new BadRequestException(animalValidado);
        }
+       animalServicio.guardarAnimalEnRefugio(animal,idRefugio);
+       return ResponseEntity.ok(animalValidado);
+
    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarAnimal(@PathVariable Long id) {
-        Animal animal = animalServicio.buscarAnimalPorId(id);
-        if (animal != null) {
-            animalServicio.eliminarAnimales(id);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
-    }
 }
