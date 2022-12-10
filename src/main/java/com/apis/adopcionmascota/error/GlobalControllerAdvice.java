@@ -1,6 +1,5 @@
 package com.apis.adopcionmascota.error;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +32,16 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(modeloError);
     }
+    @ExceptionHandler(PersonaAlreadyExistsExeption.class)
+    public ResponseEntity<?> manejarPersonaExistException(PersonaAlreadyExistsExeption ex) {
+        ModeloError modeloError = new ModeloError();
+        modeloError.setEstado(HttpStatus.BAD_REQUEST);
+        modeloError.setFecha(new Date());
+        modeloError.setMensaje(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(modeloError);
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

@@ -1,9 +1,9 @@
 package com.apis.adopcionmascota.servicio.impl;
 
-import com.apis.adopcionmascota.dto.PersonaAdopcionDto;
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
-import com.apis.adopcionmascota.dto.PersonaDomDto;
 import com.apis.adopcionmascota.dto.PersonaDto;
+import com.apis.adopcionmascota.error.BadRequestException;
+import com.apis.adopcionmascota.error.PersonaAlreadyExistsExeption;
 import com.apis.adopcionmascota.modelo.Persona;
 import com.apis.adopcionmascota.repositorio.PersonaRepositorio;
 import com.apis.adopcionmascota.servicio.IPersonaServicio;
@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +27,7 @@ public class PersonaServicio implements IPersonaServicio {
 
     public Persona guardarPersona(Persona persona){
         return personaRepositorio.save(persona);
+
     }
 
     public Optional<Persona> buscarPersonaPorId(Long id){
@@ -58,9 +58,9 @@ public class PersonaServicio implements IPersonaServicio {
     }
 
     @Override
-    public Persona validarDatosPersona(Persona persona) {
+    public Persona validarDatosPersona(Persona persona){
         if(persona.getNombre().equals("") ||persona.getDireccion().equals("")||persona.getTelefono().equals("")){
-            return null;
+                throw new BadRequestException(persona);
         }
         return persona;
     }

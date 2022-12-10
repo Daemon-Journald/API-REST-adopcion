@@ -15,6 +15,7 @@ com/apis/adopcionmascota/repositorio/RefugioRepositorio.class
 com/apis/adopcionmascota/configuracion/WebMvcConfig.class
 com/apis/adopcionmascota/servicio/impl/AnimalServicio.class
 com/apis/adopcionmascota/modelo/Animal.class
+com/apis/adopcionmascota/error/PersonaAlreadyExistsExeption.class
 com/apis/adopcionmascota/error/GlobalControllerAdvice.class
 com/apis/adopcionmascota/error/NotFoundException.class
 com/apis/adopcionmascota/servicio/IAdopcionServicio.class
