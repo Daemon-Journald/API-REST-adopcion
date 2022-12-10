@@ -10,6 +10,7 @@ import com.apis.adopcionmascota.servicio.impl.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,11 +47,8 @@ public class PersonaControlador {
     @PostMapping
     public ResponseEntity<?> crearPersona(@RequestBody Persona persona){
         Persona personaValidada=personaServicio.validarDatosPersona(persona);
-        if(personaValidada == null){
-            throw new BadRequestException(persona);
-        }
-        personaServicio.guardarPersona(persona);
-        return ResponseEntity.status(HttpStatus.CREATED).body(persona);
+        personaServicio.guardarPersona(personaValidada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(personaValidada);
 
     }
 
