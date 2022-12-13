@@ -1,7 +1,6 @@
 package com.apis.adopcionmascota.servicio.impl;
 
 import com.apis.adopcionmascota.dto.AnimalBasicoDto;
-import com.apis.adopcionmascota.dto.AnimalDomDto;
 import com.apis.adopcionmascota.modelo.Animal;
 import com.apis.adopcionmascota.modelo.Refugio;
 import com.apis.adopcionmascota.repositorio.AnimalRepositorio;
@@ -26,9 +25,28 @@ public class AnimalServicio implements IAnimalServicio {
     @Autowired
     private RefugioServicio refugioServicio;
 
-
     @Autowired
     private ModelMapper modelMapper;
+
+    @Override
+    public Optional<Animal> buscarAnimalPorId(Long idAnimal) {
+        return animalRepositorio.findById(idAnimal);
+    }
+
+
+    public void eliminarAnimal(Long id){
+        animalRepositorio.deleteById(id);
+    }
+
+    @Override
+    public AnimalBasicoDto convertirADtoBasico(Animal animal) {
+        return modelMapper.map(animal, AnimalBasicoDto.class);
+    }
+
+    @Override
+    public List<Animal> listarAnimalesPorEstado(String estado) {
+        return animalRepositorio.findByEstado(estado);
+    }
 
     public List<Animal> listarAnimalesPorRefugio(Long idRefugio){
         Refugio refugio=refugioServicio.buscarRefugioPorId(idRefugio).orElse(null);
@@ -53,6 +71,7 @@ public class AnimalServicio implements IAnimalServicio {
         Refugio refugio=refugioServicio.buscarRefugioPorId(idRefugio).orElse(null);
         if(refugio == null) return null;
         List<Animal> listaAnimalesPorRefugio=refugio.getAnimales();
+
         Animal animalEncontrado=null;
         for (Animal animal:listaAnimalesPorRefugio) {
             if(animal.getId() == idAnimal){
@@ -63,33 +82,12 @@ public class AnimalServicio implements IAnimalServicio {
         return animalEncontrado;
 
     }
-
-    @Override
-    public Optional<Animal> buscarAnimalPorId(Long idAnimal) {
-        return animalRepositorio.findById(idAnimal);
-    }
-
-
-    public void eliminarAnimal(Long id){
-        animalRepositorio.deleteById(id);
-    }
-
-    @Override
-    public AnimalBasicoDto convertirADtoBasico(Animal animal) {
-        return modelMapper.map(animal, AnimalBasicoDto.class);
-    }
-
     @Override
     public Animal validarAnimal(Animal animal) {
         if (animal.getNombre().equals("")||animal.getNombre() == null) {
             return null;
         }
         return animal;
-    }
-
-    @Override
-    public List<Animal> listarAnimalesPorEstado(String estado) {
-        return animalRepositorio.findByEstado(estado);
     }
 
     @Override

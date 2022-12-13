@@ -17,8 +17,11 @@ public class Refugio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private String ciudad;
+    @Column(nullable = false)
     private String direccion;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

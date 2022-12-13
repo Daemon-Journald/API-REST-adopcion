@@ -10,19 +10,12 @@ API Restful CRUD para una tienda de mascotas usando Spring Boot, Mysql, JPA e Hi
 git clone https://github.com/gitiing/API-REST-adopcion.git
 ```
 
-**2. Crear la base de datos en Mysql**
-```bash
-create database DBadopcion
-```
-- run `src/main/resources/blogapi.sql`
-
-**3.
-Cambie el nombre de usuario y la contraseña de Mysql según su instalación de mysql**
+**2. Cambie el nombre de usuario y la contraseña de Mysql según su instalación de mysql**
 
 + abrir `src/main/resources/application.properties`
 + cambiar `spring.datasource.username` y `spring.datasource.password` según su instalación de mysql
 
-**4. Ejecute la aplicación en la terminal usando maven**
+**3. Ejecute la aplicación en la terminal usando maven**
 
 ```bash
 mvn spring-boot:run
