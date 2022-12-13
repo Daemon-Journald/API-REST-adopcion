@@ -1,4 +1,4 @@
-# Spring Boot, MySQL, JPA, Rest API
+# Spring Boot, MySQL, JPA, Rest API y Swagger
 
 API Restful CRUD para una tienda de mascotas usando Spring Boot, Mysql, JPA e Hibernate.
 
@@ -21,6 +21,10 @@ git clone https://github.com/gitiing/API-REST-adopcion.git
 mvn spring-boot:run
 ```
 La aplicación comenzará a ejecutarse en <http://localhost:8080>
+
+**4. Documentacion con Swagger**
+
+Para ver la documentacion en Swagger ingrese a la siguiente ruta <http://localhost:8080/swagger-ui/index.html>
 
 ## Explorar el API Rest
 
