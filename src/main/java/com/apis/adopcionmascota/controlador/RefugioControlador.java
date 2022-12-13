@@ -40,13 +40,11 @@ public class RefugioControlador {
         return refugio;
     }
 
-    //falta revisar
     @PostMapping
     public ResponseEntity<?> crearRefugio(@RequestBody Refugio refugioNuevo){
         Refugio refugio=refugioServicio.validarDatos(refugioNuevo);
-        if(refugioNuevo == null){
+        if(refugioNuevo == null)
             return ResponseEntity.badRequest().build();
-        }
         refugioServicio.guardarRefugio(refugio);
         return ResponseEntity.status(HttpStatus.CREATED).body(refugio);
 

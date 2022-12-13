@@ -1,16 +1,13 @@
 package com.apis.adopcionmascota.controlador;
 
-import com.apis.adopcionmascota.dto.PersonaAdopcionDto;
 import com.apis.adopcionmascota.dto.PersonaBasicaDto;
 import com.apis.adopcionmascota.dto.PersonaDto;
-import com.apis.adopcionmascota.error.BadRequestException;
 import com.apis.adopcionmascota.error.NotFoundException;
 import com.apis.adopcionmascota.modelo.Persona;
 import com.apis.adopcionmascota.servicio.impl.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -24,6 +24,7 @@ public class AdopcionControlador {
     @GetMapping
     public ResponseEntity<?> listaAdopciones() {
         List<Adopcion> listaAdopcion = adopcionServicio.listarAdopciones();
+
         if (listaAdopcion.isEmpty()) {
             throw new NotFoundException();
         } else {

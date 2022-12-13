@@ -30,10 +30,9 @@ public class AnimalControlador {
     @GetMapping("/refugio/{idRefugio}/animal")
     public ResponseEntity<?> listarAnimales(@RequestParam(required = false, defaultValue = "NO_ADOPTADO") String estado,
                                             @PathVariable Long idRefugio) {
-        List<Animal> animalList = animalServicio.listarAnimalesPorRefugio(idRefugio);;
-        if (estado.toUpperCase().equals("ADOPTADO") || estado.toUpperCase().equals("NO_ADOPTADO")){
+        List<Animal> animalList = animalServicio.listarAnimalesPorRefugio(idRefugio);
+        if (estado.toUpperCase().equals("ADOPTADO") || estado.toUpperCase().equals("NO_ADOPTADO"))
             animalList = animalServicio.filtrarAnimalesPorEstado(estado, animalList);
-        }
 
         if (animalList.isEmpty()){
             throw new NotFoundException();
@@ -70,9 +69,8 @@ public class AnimalControlador {
    @PostMapping("/refugio/{idRefugio}/animal")
     public ResponseEntity<?> crearAnimal(@PathVariable Long idRefugio,@RequestBody Animal animal) {
        Animal animalValidado=animalServicio.validarAnimal(animal);
-       if(animalValidado == null){
+       if(animalValidado == null)
            throw new BadRequestException(animalValidado);
-       }
        animalServicio.guardarAnimalEnRefugio(animal,idRefugio);
        return ResponseEntity.ok(animalValidado);
 

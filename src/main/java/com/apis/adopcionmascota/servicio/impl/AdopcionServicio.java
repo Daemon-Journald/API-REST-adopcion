@@ -75,7 +75,6 @@ public class AdopcionServicio implements IAdopcionServicio {
     public Adopcion convetirAObjeto(CrearAdopcionDto crearAdopcionDto) {
         Persona persona = personaServicio.buscarPersonaPorId(crearAdopcionDto.getPersonaId()).orElse(null);
         Animal animal=animalServicio.buscarAnimalPorId(crearAdopcionDto.getAnimalId()).orElse(null);
-
         Adopcion adopcionNuevo=new Adopcion();
         adopcionNuevo.setPersona(persona);
         animal.setEstado(AdopcionEnum.ADOPTADO.toString());

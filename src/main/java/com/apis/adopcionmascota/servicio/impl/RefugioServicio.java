@@ -42,6 +42,7 @@ public class RefugioServicio implements IRefugioServicio {
     @Override
     public RefugioBasicoDto convertirADtoBasico(Refugio refugio) {
         RefugioBasicoDto refugioBasicoDto =modelMapper.map(refugio, RefugioBasicoDto.class);
+
         Refugio refugioBuscado=refugioRepositorio.findById(refugio.getId()).orElse(null);
         refugioBasicoDto.setNumeroAnimales(refugioBuscado.getAnimales().size());
         return refugioBasicoDto;
